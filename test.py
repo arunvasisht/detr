@@ -10,7 +10,7 @@ import sys
 import argparse
 from pathlib import Path
 from typing import Iterable
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
 import torch
@@ -31,7 +31,6 @@ def box_cxcywh_to_xyxy(x):
 
 def rescale_bboxes(out_bbox, size):
     img_w, img_h = size
-    print(out_bbox)
     b = box_cxcywh_to_xyxy(out_bbox)
     b = b * torch.tensor([img_w, img_h,
                           img_w, img_h
@@ -146,68 +145,28 @@ def infer(images_path, model, postprocessors, device, output_path):
         image, targets = transform(orig_image, dummy_target)
         image = image.unsqueeze(0)
         image = image.to(device)
-        conv_features, enc_attn_weights, dec_attn_weights = [], [], []
-        hooks = [
-            model.backbone[-2].register_forward_hook(
-                        lambda self, input, output: conv_features.append(output)
-
-            ),
-            model.transformer.encoder.layers[-1].self_attn.register_forward_hook(
-                        lambda self, input, output: enc_attn_weights.append(output[1])
-
-            ),
-            model.transformer.decoder.layers[-1].multihead_attn.register_forward_hook(
-                        lambda self, input, output: dec_attn_weights.append(output[1])
-
-            ),
-
+        # COCO classes
+        CLASSES = [
+            'N/A', 'text','image','math','table'
         ]
         start_t = time.perf_counter()
         outputs = model(image)
-        end_t = time.perf_counter()
-        outputs["pred_logits"] = outputs["pred_logits"].cpu()
-        outputs["pred_boxes"] = outputs["pred_boxes"].cpu()
-        probas = outputs['pred_logits'].softmax(-1)[0, :, :-1]
-        # keep = probas.max(-1).values > 0.85
-        keep = probas.max(-1).values > args.thresh
-        bboxes_scaled = rescale_bboxes(outputs['pred_boxes'][0, keep], orig_image.size)
-        probas = probas[keep].cpu().data.numpy()
-        for hook in hooks:
-            hook.remove()
-
-        conv_features = conv_features[0]
-        enc_attn_weights = enc_attn_weights[0]
-        dec_attn_weights = dec_attn_weights[0].cpu()
-        # get the feature map shape
-        h, w = conv_features['0'].tensors.shape[-2:]
-        if len(bboxes_scaled) == 0:
-            continue
-        img = np.array(orig_image)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        for idx, box in enumerate(bboxes_scaled):
-            bbox = box.cpu().data.numpy()
-            bbox = bbox.astype(np.int32)
-            bbox = np.array([
-                [bbox[0], bbox[1]],
-                [bbox[2], bbox[1]],
-                [bbox[2], bbox[3]],
-                [bbox[0], bbox[3]],
-                ])
-            bbox = bbox.reshape((4, 2))
-            cv2.polylines(img, [bbox], True, (0, 255, 0), 2)
-        print("here 7")
-        img_save_path = os.path.join(output_path, filename)
-        print(img_save_path)
-        cv2.imwrite(img_save_path, img)
-        cv2.imshow("img", img)
-        cv2.waitKey()
-        infer_time = end_t - start_t
-        duration += infer_time
-        print("Processing...{} ({:.3f}s)".format(filename, infer_time))
-
-    avg_duration = duration / len(images_path)
-    print("Avg. Time: {:.3f}s".format(avg_duration))
-
+        print(outputs[0].shape)
+        
+        im2 = orig_image.copy()
+        drw = ImageDraw.Draw(im2)
+        for logits, box in zip(outputs['pred_logits'][0],outputs['pred_boxes'][0]):
+            cls = logits.argmax()
+            if(cls >= len(CLASSES)):
+                continue
+            label = CLASSES[cls]
+            box = box.cpu() * torch.Tensor([w,h,w,h])
+            x,y,w,h = box
+            x0, x1 = x-w//2, x+w//2
+            y0, y1 = y-h//2, y+h//2
+            drw.rectangle([x0,y0,x1,y1], outline="red", width=2)
+            drw.text((x,y), label, fill="blue")
+        #im2.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
