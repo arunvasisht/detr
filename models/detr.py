@@ -313,6 +313,7 @@ def build(args):
     num_classes = 20 if args.dataset_file == 'coco' else 91
 
     #set number of classes = 4
+    
     num_classes = 4
 
     if args.dataset_file == "coco_panoptic":
