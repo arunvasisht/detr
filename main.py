@@ -221,7 +221,8 @@ def main(args):
                      'n_parameters': n_parameters}
 
         if args.output_dir and utils.is_main_process():
-            with (output_dir / "log.txt").open("a") as f:
+            log_file_name = "log_"+str(epoch) + ".txt"
+            with (output_dir / log_file_name).open("a") as f:
                 f.write(json.dumps(log_stats) + "\n")
 
             # for evaluation logs
