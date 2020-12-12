@@ -10,6 +10,8 @@ import torch
 import torch.utils.data
 import torchvision
 from pycocotools import mask as coco_mask
+import matplotlib.pyplot as plt
+from torchvision.transforms.transforms import RandomAffine
 
 import datasets.transforms as T
 
@@ -136,9 +138,16 @@ def make_coco_transforms(image_set):
         # ])
         
         # no augmentation code
+        # return T.Compose([
+        #     T.RandomResize([800], max_size=1333),
+        #     normalize
+        # ])
+
+        # noise augmentation code
         return T.Compose([
             T.RandomResize([800], max_size=1333),
-            normalize,
+            T.ToTensor(),
+            T.AddGaussianNoise(0.0, 0.1)
         ])
 
     if image_set == 'val':
@@ -148,7 +157,6 @@ def make_coco_transforms(image_set):
         ])
 
     raise ValueError(f'unknown {image_set}')
-
 
 def build(image_set, args):
     root = Path(args.coco_path)

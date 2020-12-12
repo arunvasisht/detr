@@ -5,10 +5,13 @@ import json
 import random
 import time
 from pathlib import Path
+import matplotlib
+import matplotlib.pyplot as plt
 
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, DistributedSampler
+import torchvision
 
 import datasets
 import util.misc as utils
@@ -156,6 +159,15 @@ def main(args):
                                    collate_fn=utils.collate_fn, num_workers=args.num_workers)
     data_loader_val = DataLoader(dataset_val, args.batch_size, sampler=sampler_val,
                                  drop_last=False, collate_fn=utils.collate_fn, num_workers=args.num_workers)
+
+    # view images
+    # matplotlib.use('TkAgg')
+    # images, labels = iter(data_loader_train).next()
+    # imgs = torchvision.utils.make_grid(images.tensors)
+    # imgs = imgs / 2 + 0.5     # unnormalize
+    # npimg = imgs.numpy()
+    # plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    # plt.show()
 
     if args.dataset_file == "coco_panoptic":
         # We also evaluate AP during panoptic training, on original coco DS

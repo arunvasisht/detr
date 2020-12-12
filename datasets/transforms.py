@@ -9,9 +9,27 @@ import torch
 import torchvision.transforms as T
 import torchvision.transforms.functional as F
 
+from PIL import Image, ImageDraw
+
 from util.box_ops import box_xyxy_to_cxcywh
 from util.misc import interpolate
 
+# utility method to visualize the image and the corresponding boundingboxes
+def showBoxes(image, boxes):
+    """
+    helper method to visualize the image along with the bounding boxes
+    """
+    w, h = image.size
+
+    draw = ImageDraw.Draw(image) 
+
+    for box in boxes:
+        x1, y1, x2, y2 = box
+        shape = [(x1,y1),(x2, y2)]
+        
+        draw.rectangle(shape,outline="red",fill=None)
+
+    image.show()
 
 def crop(image, target, region):
     cropped_image = F.crop(image, *region)
@@ -57,6 +75,7 @@ def crop(image, target, region):
 
 
 def hflip(image, target):
+    #showBoxes(image, target["boxes"])
     flipped_image = F.hflip(image)
 
     w, h = image.size
@@ -70,6 +89,7 @@ def hflip(image, target):
     if "masks" in target:
         target['masks'] = target['masks'].flip(-1)
 
+    #showBoxes(flipped_image,target["boxes"])
     return flipped_image, target
 
 
@@ -144,6 +164,13 @@ def pad(image, target, padding):
         target['masks'] = torch.nn.functional.pad(target['masks'], (0, padding[0], 0, padding[1]))
     return padded_image, target
 
+class AddGaussianNoise(object):
+    def __init__(self, mean=0., std=1.):
+        self.std = std
+        self.mean = mean
+        
+    def __call__(self, img, target):
+        return img + torch.randn(img.size()) * self.std + self.mean , target
 
 class RandomCrop(object):
     def __init__(self, size):
