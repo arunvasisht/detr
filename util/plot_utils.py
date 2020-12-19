@@ -109,4 +109,5 @@ def plot_precision_recall(files, naming_scheme='iter'):
 
 path = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/no_aug")  
 path_2 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/noise")  
-plot_logs([path,path_2])
+path_3 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/random_erase")
+plot_logs([path,path_2, path_3])
