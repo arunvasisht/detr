@@ -146,7 +146,8 @@ def make_coco_transforms(image_set):
         # noise augmentation code
         return T.Compose([
             T.RandomResize([800], max_size=1333),
-            normalize
+            normalize,
+            T.AddGaussianNoise(0.0,1.0)
         ])
 
     if image_set == 'val':
