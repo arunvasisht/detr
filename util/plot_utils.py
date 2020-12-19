@@ -27,7 +27,7 @@ def plot_logs(logs, fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col
 
     # verify logs is a list of Paths (list[Paths]) or single Pathlib object Path,
     # convert single Path to list to avoid 'not iterable' error
-
+    
     if not isinstance(logs, list):
         if isinstance(logs, PurePath):
             logs = [logs]
@@ -51,7 +51,7 @@ def plot_logs(logs, fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col
 
     # load log file(s) and plot
     dfs = [pd.read_json(Path(p) / log_name, lines=True) for p in logs]
-
+    
     fig, axs = plt.subplots(ncols=len(fields), figsize=(16, 5))
 
     for df, color in zip(dfs, sns.color_palette(n_colors=len(logs))):
@@ -72,6 +72,7 @@ def plot_logs(logs, fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col
         ax.legend([Path(p).name for p in logs])
         ax.set_title(field)
 
+    plt.show()
 
 def plot_precision_recall(files, naming_scheme='iter'):
     if naming_scheme == 'exp_id':
@@ -105,3 +106,7 @@ def plot_precision_recall(files, naming_scheme='iter'):
     axs[1].set_title('Scores / Recall')
     axs[1].legend(names)
     return fig, axs
+
+path = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/no_aug")  
+path_2 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/noise")  
+plot_logs([path,path_2])
