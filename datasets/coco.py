@@ -11,7 +11,6 @@ import torch.utils.data
 import torchvision
 from pycocotools import mask as coco_mask
 import matplotlib.pyplot as plt
-from torchvision.transforms.transforms import *
 
 import datasets.transforms as T
 
@@ -145,7 +144,7 @@ def make_coco_transforms(image_set):
 
         # noise augmentation code
         return T.Compose([
-            T.RandomGrayscale(p=0.2),
+            T.ColorJitter(brightness=0.5, hue=0.2),
             normalize
         ])
 
