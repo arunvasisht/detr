@@ -11,7 +11,7 @@ import torch.utils.data
 import torchvision
 from pycocotools import mask as coco_mask
 import matplotlib.pyplot as plt
-from torchvision.transforms.transforms import RandomAffine
+from torchvision.transforms.transforms import *
 
 import datasets.transforms as T
 
