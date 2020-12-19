@@ -144,7 +144,7 @@ def make_coco_transforms(image_set):
 
         # noise augmentation code
         return T.Compose([
-            T.ColorJitter(brightness=0.5, hue=0.2),
+            T.ColorJitter(brightness=0.5, hue=0.5),
             normalize
         ])
 
