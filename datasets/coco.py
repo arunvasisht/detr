@@ -147,12 +147,12 @@ def make_coco_transforms(image_set):
         return T.Compose([
             T.RandomResize([800], max_size=1333),
             T.Compose([
-                T.RandomResize([400, 500, 600]),
-                T.AddGaussianNoise(mean=0.0,std=0.3),
-                T.ColorJitter(contrast=0.5)
+                T.RandomResize([400, 500, 600,800]),   
+                T.ColorJitter(contrast=0.5),
+                normalize,
+                T.AddGaussianNoise(mean=0.0,std=0.5)
             ])
-            ,
-            normalize
+            
         ])
 
     if image_set == 'val':
