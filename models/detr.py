@@ -314,7 +314,7 @@ def build(args):
 
     #set number of classes = 4
     
-    num_classes = 3
+    num_classes = 4
 
     if args.dataset_file == "coco_panoptic":
         # for panoptic, we just add a num_classes that is large enough to hold
