@@ -153,9 +153,8 @@ def make_coco_transforms(image_set):
         #         T.ColorJitter(contrast=0.5),
         #         normalize,
         #         T.AddGaussianNoise(mean=0.0,std=0.5)
-        #     ])
-            
-        ])
+        #     ])            
+        #])
 
     if image_set == 'val':
         return T.Compose([
