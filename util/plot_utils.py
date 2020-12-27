@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 
 from pathlib import Path, PurePath
 
-
 def plot_logs(logs, fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col=0, log_name='log.txt'):
     '''
     Function to plot specific fields from training log(s). Plots both training and test results.
@@ -107,13 +106,7 @@ def plot_precision_recall(files, naming_scheme='iter'):
     axs[1].legend(names)
     return fig, axs
 
-path_1 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/no_aug")  
-path_2 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/noise")  
-path_3 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/random_erase")
-path_4 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/color_jitter_1")
-path_5 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/off_shelf")
-path_6 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/color_jitter_2")
-path_7 = Path("C:/Arun/dataset/local_exp/1712")
-path_8 = Path("C:/Arun/dataset/experiments/mask_dataset/18122020/random_compose_1")
-plot_logs([path_1, path_2, path_3, path_4, path_5, path_6, path_7,path_8])
+path_1 = Path("C:/Arun/dataset/experiments/demo/no_aug")  
+path_2 = Path("C:/Arun/dataset/experiments/demo/off_shelf")  
+plot_logs([path_1,path_2],fields=('class_error','mAP','loss_giou','loss_bbox'))
 #z = plot_precision_recall(["C:/Arun/dataset/experiments/mask_dataset/18122020/no_aug/log.txt"])

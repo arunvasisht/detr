@@ -125,18 +125,18 @@ def make_coco_transforms(image_set):
 
     if image_set == 'train':
         # Mode 1 - off the shelf code
-        return T.Compose([
-            #T.RandomHorizontalFlip(),   #removed as we are not going to encounter flipped text in real world scenario
-            T.RandomSelect(
-                T.RandomResize(scales, max_size=1333),
-                T.Compose([
-                    T.RandomResize([400, 500, 600]),
-                    T.RandomSizeCrop(384, 600),
-                    T.RandomResize(scales, max_size=1333),
-                ])
-            ),
-            normalize,
-        ])
+        # return T.Compose([
+        #     #T.RandomHorizontalFlip(),   #removed as we are not going to encounter flipped text in real world scenario
+        #     T.RandomSelect(
+        #         T.RandomResize(scales, max_size=1333),
+        #         T.Compose([
+        #             T.RandomResize([400, 500, 600]),
+        #             T.RandomSizeCrop(384, 600),
+        #             T.RandomResize(scales, max_size=1333),
+        #         ])
+        #     ),
+        #     normalize,
+        # ])
         
         #Mode 2 - No Augmentation
         # no augmentation code
@@ -145,16 +145,12 @@ def make_coco_transforms(image_set):
         #     normalize
         # ])
 
-        # noise augmentation code
-        # return T.Compose([
-        #     T.RandomResize([800], max_size=1333),
-        #     T.Compose([
-        #         T.RandomResize([400, 500, 600]),   
-        #         T.ColorJitter(contrast=0.5),
-        #         normalize,
-        #         T.AddGaussianNoise(mean=0.0,std=0.5)
-        #     ])            
-        #])
+        #Mode 3 - Random Erasing - Iter 1
+        return T.Compose([
+            T.ToTensor(),
+            normalize,
+            T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
+        ])
 
     if image_set == 'val':
         return T.Compose([
