@@ -146,8 +146,21 @@ def make_coco_transforms(image_set):
         # ])
 
         #Mode 3 - Random Erasing - Iter 1
+        # return T.Compose([
+        #     normalize,
+        #     T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
+        # ])
+
+        #Mode 3 - Random Erasing - Iter 2
+        # return T.Compose([
+        #     T.RandomResize([900],max_size = 1333),
+        #     normalize,
+        #     T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
+        # ])
+
+        # Mode 4 - Random Noise
         return T.Compose([
-            T.RandomResize([900],max_size = 1333),
+            T.RandomResize([800],max_size = 1333),
             normalize,
             T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
         ])
