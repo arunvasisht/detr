@@ -126,7 +126,7 @@ def make_coco_transforms(image_set):
     if image_set == 'train':
         # Mode 1 - off the shelf code
         # return T.Compose([
-        #     #T.RandomHorizontalFlip(),   #removed as we are not going to encounter flipped text in real world scenario
+        #     T.RandomHorizontalFlip(),   #removed as we are not going to encounter flipped text in real world scenario
         #     T.RandomSelect(
         #         T.RandomResize(scales, max_size=1333),
         #         T.Compose([
@@ -140,10 +140,10 @@ def make_coco_transforms(image_set):
         
         #Mode 2 - No Augmentation
         # no augmentation code
-        # return T.Compose([
-        #     T.RandomResize([800], max_size=1333),
-        #     normalize
-        # ])
+        return T.Compose([
+            T.RandomResize([800], max_size=1333),
+            normalize
+        ])
 
         #Mode 3 - Random Erasing - Iter 1
         # return T.Compose([
@@ -158,12 +158,19 @@ def make_coco_transforms(image_set):
         #     T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
         # ])
 
-        # Mode 4 - Random Noise
-        return T.Compose([
-            T.RandomResize([800],max_size = 1333),
-            normalize,
-            T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
-        ])
+        # Mode 4 - Random Erase - Iter 3 (300 epochs)
+        # return T.Compose([
+        #     T.RandomResize([800],max_size = 1333),
+        #     normalize,
+        #     T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
+        # ])
+
+        # Mode 5 - Random Crop and Resize
+        # return T.Compose([
+        #     T.RandomResize([800],max_size = 1333),
+        #     normalize,
+        #     T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
+        # ])
 
     if image_set == 'val':
         return T.Compose([
