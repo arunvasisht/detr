@@ -165,13 +165,17 @@ def pad(image, target, padding):
     return padded_image, target
 
 class AddGaussianNoise(object):
-    def __init__(self, mean=0., std=1.):
+    def __init__(self, mean=0., std=1.,p=0.5):
         self.std = std
         self.mean = mean
+        self.p = p
         
     def __call__(self, img, target):
-        return img + torch.randn(img.size()) * self.std + self.mean , target
+        if random.random() < self.p:
+            return img + torch.randn(img.size()) * self.std + self.mean , target
+        return img,target
 
+        
 class RandomCrop(object):
     def __init__(self, size):
         self.size = size
