@@ -152,6 +152,14 @@ def make_coco_transforms(image_set):
         #     T.AddGaussianNoise(0.,1.,p=0.5)
         # ])
 
+        #Mode  - Random Resize
+        return T.Compose([
+            T.RandomResize(scales,max_size=1333)
+            ,
+            normalize,
+            
+        ])
+
         #Mode  - Color Jitter
         return T.Compose([
             T.RandomResize([800],max_size = 1333),

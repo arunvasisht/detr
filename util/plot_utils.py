@@ -106,7 +106,9 @@ def plot_precision_recall(files, naming_scheme='iter'):
     axs[1].legend(names)
     return fig, axs
 
-path_1 = Path("C:/Arun/dataset/experiments/demo/no_aug")  
-path_2 = Path("C:/Arun/dataset/experiments/demo/off_shelf")  
-plot_logs([path_1,path_2],fields=('class_error','mAP','loss_giou','loss_bbox'))
+path_no_aug = Path("C:/Arun/dataset/experiments/demo/no_aug") 
+path_noise = Path("C:/Arun/dataset/experiments/demo/noise")
+path_erase = Path("C:/Arun/dataset/experiments/demo/erase_3")
+path_color_jitter = Path("C:/Arun/dataset/experiments/demo/color_jitter")
+plot_logs([path_no_aug, path_noise, path_erase,path_color_jitter],fields=('class_error','mAP','loss_bbox'))
 #z = plot_precision_recall(["C:/Arun/dataset/experiments/mask_dataset/18122020/no_aug/log.txt"])
