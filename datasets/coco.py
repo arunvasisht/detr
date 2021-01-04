@@ -140,12 +140,28 @@ def make_coco_transforms(image_set):
         
         #Mode 2 - No Augmentation
         # no augmentation code
+        # return T.Compose([
+        #     T.RandomResize([800],max_size = 1333),
+        #     normalize
+        # ])
+
+        #Mode  - Noise
+        # return T.Compose([
+        #     T.RandomResize([800],max_size = 1333),
+        #     normalize,
+        #     T.AddGaussianNoise(0.,1.,p=0.5)
+        # ])
+
+        #Mode  - Color Jitter
         return T.Compose([
             T.RandomResize([800],max_size = 1333),
+            T.RandomSelect(
+                T.ColorJitter(p=0.5, brightness=(0.8,0.9),contrast=(0.7,0.8)),
+                T.ColorJitter(p=0.5, brightness=(0.7,0.8),contrast=(0.8,0.9)),
+            ),
             normalize,
-            T.AddGaussianNoise(0.,1.,p=0.5)
+            
         ])
-
         #Mode 3 - Random Erasing - Iter 1
         # return T.Compose([
         #     normalize,
