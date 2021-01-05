@@ -83,7 +83,7 @@ def plot_precision_recall(files, naming_scheme='iter'):
         raise ValueError(f'not supported {naming_scheme}')
     fig, axs = plt.subplots(ncols=2, figsize=(16, 5))
     for f, color, name in zip(files, sns.color_palette("Blues", n_colors=len(files)), names):
-        data = torch.load(f)
+        data = torch.load(f, map_location=torch.device('cpu'))
         # precision is n_iou, n_points, n_cat, n_area, max_det
         precision = data['precision']
         recall = data['params'].recThrs
@@ -110,5 +110,6 @@ path_no_aug = Path("C:/Arun/dataset/experiments/demo/no_aug")
 path_noise = Path("C:/Arun/dataset/experiments/demo/noise")
 path_erase = Path("C:/Arun/dataset/experiments/demo/erase_3")
 path_color_jitter = Path("C:/Arun/dataset/experiments/demo/color_jitter")
-plot_logs([path_no_aug,path_color_jitter],fields=('class_error','mAP','loss_bbox'))
-#z = plot_precision_recall(["C:/Arun/dataset/experiments/mask_dataset/18122020/no_aug/log.txt"])
+#plot_logs([path_no_aug,path_color_jitter],fields=('class_error','mAP','loss_bbox'))
+path_model_no_aug = Path("C:/Arun/dataset/experiments/demo/no_aug/checkpoint.pth")
+z = plot_precision_recall([path_model_no_aug])
