@@ -141,8 +141,13 @@ def make_coco_transforms(image_set):
         #Mode 2 - No Augmentation
         # no augmentation code
         return T.Compose([
-            T.RandomResize([800], max_size=1333),
-            normalize
+            T.Compose([
+                    T.RandomResize([400, 500, 600]),
+                    T.RandomSizeCrop(384, 600),
+                    T.RandomResize(scales, max_size=1333),
+                ]),
+            normalize,
+            T.AddGaussianNoise(p=0.5, mean = 0.0, std=1.0)
         ])
 
         #Mode 3 - Random Erasing - Iter 1
