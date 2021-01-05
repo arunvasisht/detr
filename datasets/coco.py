@@ -182,7 +182,19 @@ def make_coco_transforms(image_set):
             
         # ])
 
-        #Mode  - Random Crops
+        #Mode  - Random Crops + Noise
+        # return T.Compose([
+
+        #     T.Compose([
+        #             T.RandomResize([400, 500, 600]),
+        #             T.RandomSizeCrop(384, 600),
+        #             T.RandomResize(scales, max_size=1333),
+        #         ]),
+        #     normalize,
+        #     T.AddGaussianNoise(0.,1.,p=0.5)
+        # ])
+
+        #Mode  - Random Crops + Erase
         return T.Compose([
 
             T.Compose([
@@ -191,7 +203,7 @@ def make_coco_transforms(image_set):
                     T.RandomResize(scales, max_size=1333),
                 ]),
             normalize,
-            T.AddGaussianNoise(0.,1.,p=0.5)
+            T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),
         ])
 
         #Mode 3 - Random Erasing - Iter 1
