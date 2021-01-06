@@ -206,7 +206,7 @@ def make_coco_transforms(image_set):
         #     T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),
         # ])
 
-        #Mode  - Random Crops + Color Jitter
+        #Mode  - Random Crops + Color Jitter + Erase
         return T.Compose([
 
             T.Compose([
@@ -219,7 +219,6 @@ def make_coco_transforms(image_set):
                     T.RandomResize(scales, max_size=1333),                    
                 ]),
             normalize,
-            T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),
         ])
 
         #Mode 3 - Random Erasing - Iter 1
