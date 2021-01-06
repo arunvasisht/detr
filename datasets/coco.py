@@ -161,15 +161,15 @@ def make_coco_transforms(image_set):
         # ])
 
         #Mode  - Random Crops
-        # return T.Compose([
-        #     T.Compose([
-        #             T.RandomResize([400, 500, 600]),
-        #             T.RandomSizeCrop(384, 600),
-        #             T.RandomResize(scales, max_size=1333),
-        #         ]),
-        #     normalize,
+        return T.Compose([
+            T.Compose([
+                    T.RandomResize([400, 500, 600]),
+                    T.RandomSizeCrop(384, 600),
+                    T.RandomResize(scales, max_size=1333),
+                ]),
+            normalize,
             
-        # ])
+        ])
 
         #Mode  - Color Jitter
         # return T.Compose([
@@ -207,19 +207,19 @@ def make_coco_transforms(image_set):
         # ])
 
         #Mode  - Random Crops + Color Jitter + Erase
-        return T.Compose([
+        # return T.Compose([
 
-            T.Compose([
-                    T.RandomResize([400, 500, 600]),
-                    T.RandomSizeCrop(384, 600),
-                    T.RandomSelect(
-                        T.ColorJitter(p=0.5, brightness=(0.8,0.9),contrast=(0.7,0.8)),
-                        T.ColorJitter(p=0.5, brightness=(0.7,0.8),contrast=(0.8,0.9)),
-                    ),
-                    T.RandomResize(scales, max_size=1333),                    
-                ]),
-            normalize,
-        ])
+        #     T.Compose([
+        #             T.RandomResize([400, 500, 600]),
+        #             T.RandomSizeCrop(384, 600),
+        #             T.RandomSelect(
+        #                 T.ColorJitter(p=0.5, brightness=(0.8,0.9),contrast=(0.7,0.8)),
+        #                 T.ColorJitter(p=0.5, brightness=(0.7,0.8),contrast=(0.8,0.9)),
+        #             ),
+        #             T.RandomResize(scales, max_size=1333),                    
+        #         ]),
+        #     normalize,
+        # ])
 
         #Mode 3 - Random Erasing - Iter 1
         # return T.Compose([
