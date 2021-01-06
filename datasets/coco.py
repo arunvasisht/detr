@@ -147,7 +147,6 @@ def make_coco_transforms(image_set):
                     T.RandomResize(scales, max_size=1333),
                 ]),
             normalize,
-            T.AddGaussianNoise(p=0.5, mean = 0.0, std=1.0)
         ])
 
         #Mode 3 - Random Erasing - Iter 1
