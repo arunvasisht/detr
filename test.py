@@ -23,8 +23,6 @@ from models import build_model
 import matplotlib.pyplot as plt
 import time
 
-%matplotlib inline
-
 def box_cxcywh_to_xyxy(x):
     x_c, y_c, w, h = x.unbind(1)
     b = [(x_c - 0.5 * w), (y_c - 0.5 * h),
@@ -138,6 +136,7 @@ def infer(images_path, model, postprocessors, device, output_path):
         filename = os.path.basename(img_sample)
         print("processing...{}".format(filename))
         orig_image = Image.open(img_sample)
+        orig_image
         w, h = orig_image.size
         transform = make_coco_transforms("val")
         dummy_target = {
@@ -169,8 +168,7 @@ def infer(images_path, model, postprocessors, device, output_path):
             #print(x0,y0,x1,y1)
             drw.rectangle([x0,y0,x1,y1], outline="red", width=1)
             drw.text((x,y), label, fill="blue")
-        #im2.show()
-        imshow(np.asarray(im2))
+        im2
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
