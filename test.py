@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Iterable
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
-from IPython.display import Image
+from matplotlib.pyplot import imshow
 
 import torch
 
@@ -169,7 +169,7 @@ def infer(images_path, model, postprocessors, device, output_path):
             drw.rectangle([x0,y0,x1,y1], outline="red", width=1)
             drw.text((x,y), label, fill="blue")
         #im2.show()
-        display(im2)
+        imshow(np.asarray(im2))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
