@@ -151,7 +151,7 @@ def infer(images_path, model, postprocessors, device, output_path):
         ]
         start_t = time.perf_counter()
         outputs = model(image)
-        print(outputs[0].shape)
+        #print(outputs[0].shape)
         
         im2 = orig_image.copy()
         drw = ImageDraw.Draw(im2)
@@ -164,9 +164,10 @@ def infer(images_path, model, postprocessors, device, output_path):
             x,y,w,h = box
             x0, x1 = x-w//2, x+w//2
             y0, y1 = y-h//2, y+h//2
-            drw.rectangle([x0,y0,x1,y1], outline="red", width=2)
+            print(x0,y0,x1,y1)
+            drw.rectangle([x0,y0,x1,y1], outline="red", width=1)
             drw.text((x,y), label, fill="blue")
-        #im2.show()
+        im2.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
