@@ -23,6 +23,7 @@ from models import build_model
 import matplotlib.pyplot as plt
 import time
 
+%matplotlib inline
 
 def box_cxcywh_to_xyxy(x):
     x_c, y_c, w, h = x.unbind(1)
