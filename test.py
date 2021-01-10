@@ -168,7 +168,7 @@ def infer(images_path, model, postprocessors, device, output_path):
             #print(x0,y0,x1,y1)
             drw.rectangle([x0,y0,x1,y1], outline="red", width=1)
             drw.text((x,y), label, fill="blue")
-        display(im2)
+        im2.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
