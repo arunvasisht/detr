@@ -124,6 +124,23 @@ def make_coco_transforms(image_set):
     scales = [480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800]
 
     if image_set == 'train':
+        # Final Run
+        return T.Compose([
+            T.RandomSelect(
+                T.ColorJitter(p=0.3, brightness=(0.8,0.9),contrast=(0.7,0.8)),
+                T.ColorJitter(p=0.3, brightness=(0.7,0.8),contrast=(0.8,0.9)),
+            ),
+            T.RandomSelect(
+                T.RandomResize(scales, max_size=1333),
+                T.Compose([
+                    T.RandomResize([550, 600, 650]),
+                    T.RandomSizeCrop(500, 600),
+                    T.RandomResize(scales, max_size=1333),
+                ])
+            ),
+            normalize,
+        ])
+
         # Mode 1 - off the shelf code
         # return T.Compose([
         #     T.RandomHorizontalFlip(),   #removed as we are not going to encounter flipped text in real world scenario
@@ -161,15 +178,15 @@ def make_coco_transforms(image_set):
         # ])
 
         #Mode  - Random Crops
-        return T.Compose([
-            T.Compose([
-                    T.RandomResize([400, 500, 600]),
-                    T.RandomSizeCrop(384, 600),
-                    T.RandomResize(scales, max_size=1333),
-                ]),
-            normalize,
+        # return T.Compose([
+        #     T.Compose([
+        #             T.RandomResize([400, 500, 600]),
+        #             T.RandomSizeCrop(384, 600),
+        #             T.RandomResize(scales, max_size=1333),
+        #         ]),
+        #     normalize,
             
-        ])
+        # ])
 
         #Mode  - Color Jitter
         # return T.Compose([
