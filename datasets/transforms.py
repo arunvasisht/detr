@@ -269,11 +269,14 @@ class RandomErasing(object):
         return self.eraser(img), target
 
 class ColorJitter(object):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, p=0.5, *args, **kwargs):
+        self.p = p
         self.jitter = T.ColorJitter(*args, **kwargs)
 
     def __call__(self, img, target):
-        return self.jitter(img), target
+        if random.random() < self.p:
+            return self.jitter(img), target
+        return img, target
 
 class Normalize(object):
     def __init__(self, mean, std):
