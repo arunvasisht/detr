@@ -127,14 +127,10 @@ def make_coco_transforms(image_set):
         # Final Run
         return T.Compose([
             T.RandomSelect(
-                T.ColorJitter(p=0.3, brightness=(0.8,0.9),contrast=(0.7,0.8)),
-                T.ColorJitter(p=0.3, brightness=(0.7,0.8),contrast=(0.8,0.9)),
-            ),
-            T.RandomSelect(
                 T.RandomResize(scales, max_size=1333),
                 T.Compose([
-                    T.RandomResize([550, 600, 650]),
-                    T.RandomSizeCrop(500, 600),
+                    T.RandomResize([450, 500, 650]),
+                    T.RandomSizeCrop(400, 600),
                     T.RandomResize(scales, max_size=1333),
                 ])
             ),
