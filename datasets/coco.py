@@ -125,18 +125,24 @@ def make_coco_transforms(image_set):
 
     if image_set == 'train':
         # Final Run
+        # return T.Compose([
+        #     T.RandomSelect(
+        #         T.RandomResize(scales, max_size=1333),
+        #         T.Compose([
+        #             T.RandomResize([450, 500, 650]),
+        #             T.RandomSizeCrop(400, 600),
+        #             T.RandomResize(scales, max_size=1333),
+        #         ])
+        #     ),
+        #     normalize,
+        # ])
+
         return T.Compose([
-            T.RandomSelect(
-                T.RandomResize(scales, max_size=1333),
-                T.Compose([
-                    T.RandomResize([450, 500, 650]),
-                    T.RandomSizeCrop(400, 600),
-                    T.RandomResize(scales, max_size=1333),
-                ])
-            ),
+            T.Compose([
+                    T.RandomSizeCrop(300, 600),
+                ]),
             normalize,
         ])
-
         # Mode 1 - off the shelf code
         # return T.Compose([
         #     T.RandomHorizontalFlip(),   #removed as we are not going to encounter flipped text in real world scenario
