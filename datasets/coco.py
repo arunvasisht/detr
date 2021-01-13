@@ -138,9 +138,13 @@ def make_coco_transforms(image_set):
         # ])
 
         return T.Compose([
-            T.Compose([
+            T.RandomSelect(
+                T.Compose([
                     T.RandomSizeCrop(300, 600),
+                    T.RandomResize([800], max_size=1333),
                 ]),
+                T.RandomResize([800], max_size=1333),
+            ),
             normalize,
         ])
         # Mode 1 - off the shelf code
