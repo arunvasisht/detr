@@ -137,17 +137,18 @@ def make_coco_transforms(image_set):
         #     normalize,
         # ])
 
-        return T.Compose([
-            T.RandomSelect(
-                T.Compose([
-                    T.RandomResize([600],  max_size=1333),
-                    T.RandomSizeCrop(300, 500),
-                    T.RandomResize([800], max_size=1333),
-                ]),
-                T.RandomResize([800], max_size=1333),
-            ),
-            normalize,
-        ])
+        # return T.Compose([
+        #     T.RandomSelect(
+        #         T.Compose([
+        #             T.RandomResize([600],  max_size=1333),
+        #             T.RandomSizeCrop(300, 500),
+        #             T.RandomResize([800], max_size=1333),
+        #         ]),
+        #         T.RandomResize([800], max_size=1333),
+        #     ),
+        #     normalize,
+        # ])
+        
         # Mode 1 - off the shelf code
         # return T.Compose([
         #     T.RandomHorizontalFlip(),   #removed as we are not going to encounter flipped text in real world scenario
@@ -271,6 +272,23 @@ def make_coco_transforms(image_set):
         #     normalize,
         #     T.RandomErasing(p=0.5, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
         # ])
+
+        # 16-01-2021 --- Color Jitter + Random Resize + Random Crop
+        return T.Compose([
+            T.RandomSelect(
+                T.ColorJitter(p=0.3, brightness=(0.8,0.9),contrast=(0.7,0.8)),
+                T.ColorJitter(p=0.3, brightness=(0.7,0.8),contrast=(0.8,0.9)),
+            ),
+            T.RandomSelect(
+                T.RandomResize(scales, max_size=1333),
+                T.Compose([
+                    T.RandomResize([550, 600, 650]),
+                    T.RandomSizeCrop(500, 600),
+                    T.RandomResize(scales, max_size=1333),
+                ])
+            ),
+            normalize,
+        ])
 
     if image_set == 'val':
         return T.Compose([
