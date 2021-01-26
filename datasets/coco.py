@@ -290,9 +290,16 @@ def make_coco_transforms(image_set):
         #     normalize,
         # ])
 
-        # 18-01-2021 --- Random Erase
+        # 19-01-2021 --- Random Erase
+        # return T.Compose([
+        #     T.RandomResize([800],max_size = 1333),
+        #     normalize,
+        #     T.RandomErasing(p=0.3, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
+        # ])
+
+        # 25-01-2021 --- Random Erase + Random Resize
         return T.Compose([
-            T.RandomResize([800],max_size = 1333),
+            T.RandomResize(scales,max_size = 1333),
             normalize,
             T.RandomErasing(p=0.3, scale=(0.02, 0.2),ratio=(0.3, 3.33), value='random'),                      
         ])
